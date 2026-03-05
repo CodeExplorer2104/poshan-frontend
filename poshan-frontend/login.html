@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>लॉगिन — शालेय पोषण आहार</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --forest:#1a4731;--leaf:#2e7d52;--mint:#4caf7d;--pale:#e8f5ee;--cream:#f9fbf9;--gold:#c9a84c;--gold-lt:#f0d98b;--text-dark:#1c2b22;--text-mid:#3d5a47;--text-soft:#6b8575;--border:#c8ddd1; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans Devanagari',Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,var(--forest) 0%,#2a6b47 50%,#3a9a62 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+  body::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M50 50v-10h-4v10h-10v4h10v10h4v-10h10v-4H50zm0-40V0h-4v10H36v4h10v10h4V14h10v-4H50zM10 50v-10H6v10H-4v4H6v10h4v-10h10v-4H10zM10 10V0H6v10H-4v4H6v10h4V14h10v-4H10z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+  .gov-strip{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,.25);color:var(--gold-lt);text-align:center;padding:6px 16px;font-size:12px;letter-spacing:.5px;z-index:10}
+  .login-box{background:white;border-radius:16px;width:100%;max-width:420px;box-shadow:0 24px 60px rgba(0,0,0,.3);overflow:hidden;margin-top:32px;animation:slideUp .4s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .login-header{background:linear-gradient(135deg,var(--forest),var(--leaf));padding:32px 28px 28px;text-align:center}
+  .emblem{width:72px;height:72px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px}
+  .login-header h1{color:white;font-size:20px;font-weight:700;line-height:1.3}
+  .login-header p{color:var(--gold-lt);font-size:12px;margin-top:5px}
+  .login-body{padding:28px}
+  .error-box{background:#fde8e8;border:1px solid #f5b3b3;border-radius:8px;padding:11px 14px;margin-bottom:20px;font-size:13px;color:#c62828;display:none;align-items:center;gap:8px}
+  .error-box.show{display:flex}
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+  label{font-size:13px;font-weight:600;color:var(--text-mid)}
+  label span{font-weight:400;color:var(--text-soft);margin-left:4px}
+  .input-wrap{position:relative}
+  .input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px}
+  input{width:100%;padding:12px 14px 12px 40px;font-size:15px;font-family:inherit;border-radius:8px;border:1.5px solid var(--border);background:var(--cream);color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s}
+  input:focus{border-color:var(--mint);box-shadow:0 0 0 3px rgba(76,175,125,.15);background:white}
+  .btn-login{width:100%;padding:14px;background:linear-gradient(135deg,var(--leaf),#389962);color:white;font-size:16px;font-family:inherit;font-weight:700;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 14px rgba(46,125,82,.35);transition:all .2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(46,125,82,.45)}
+  .btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none}
+  .hint{margin-top:20px;padding:12px 14px;background:var(--pale);border-radius:8px;font-size:12px;color:var(--text-soft);text-align:center;line-height:1.6}
+  .hint strong{color:var(--text-mid)}
+  .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="gov-strip">महाराष्ट्र शासन — शालेय पोषण आहार योजना &nbsp;|&nbsp; Government of Maharashtra — School Nutrition Program</div>
+
+<div class="login-box">
+  <div class="login-header">
+    <div class="emblem">🏫</div>
+    <h1>शालेय पोषण आहार<br>व्यवस्थापन प्रणाली</h1>
+    <p>School Nutrition Meal Management System</p>
+  </div>
+  <div class="login-body">
+    <div class="error-box" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+    <div class="field">
+      <label>वापरकर्ता नाव <span>(Username)</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="username" placeholder="तुमचे नाव टाका" autocomplete="username" required>
+      </div>
+    </div>
+    <div class="field">
+      <label>पासवर्ड <span>(Password)</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="password" placeholder="पासवर्ड टाका" autocomplete="current-password" required>
+      </div>
+    </div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">
+      <div class="spinner" id="spinner"></div>
+      <span id="btnText">🔓 लॉगिन करा (Login)</span>
+    </button>
+    <div class="hint">प्रवेशासाठी शाळेने दिलेले नाव व पासवर्ड वापरा.<br><strong>Use the username & password provided by your school.</strong></div>
+  </div>
+</div>
+
+<script>
+  const API = window.BACKEND_URL || "https://YOUR-RENDER-APP.onrender.com";
+
+  // If already logged in, go home
+  if (localStorage.getItem("token")) window.location.href = "index.html";
+
+  document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+
+  async function doLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    if (!username || !password) { showError("कृपया नाव व पासवर्ड टाका."); return; }
+
+    setLoading(true);
+    try {
+      const res  = await fetch(`${API}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("username", data.username);
+        window.location.href = "index.html";
+      } else {
+        showError(data.error || "लॉगिन अयशस्वी");
+      }
+    } catch {
+      showError("सर्व्हरशी कनेक्ट होता आले नाही. (Cannot connect to server)");
+    }
+    setLoading(false);
+  }
+
+  function showError(msg) {
+    document.getElementById("errorMsg").textContent = msg;
+    document.getElementById("errorBox").classList.add("show");
+  }
+  function setLoading(on) {
+    document.getElementById("loginBtn").disabled = on;
+    document.getElementById("spinner").style.display = on ? "block" : "none";
+    document.getElementById("btnText").textContent = on ? "लॉगिन होत आहे..." : "🔓 लॉगिन करा (Login)";
+  }
+</script>
+</body>
+</html>

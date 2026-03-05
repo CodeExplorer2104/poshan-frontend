@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>महिन्याची नोंद — शालेय पोषण आहार</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--forest:#1a4731;--leaf:#2e7d52;--mint:#4caf7d;--pale:#e8f5ee;--cream:#f9fbf9;--gold:#c9a84c;--gold-lt:#f0d98b;--text-dark:#1c2b22;--text-mid:#3d5a47;--text-soft:#6b8575;--border:#c8ddd1;--shadow:rgba(26,71,49,.12)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans Devanagari',Arial,sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh}
+  .gov-strip{background:var(--forest);color:var(--gold-lt);text-align:center;padding:6px 16px;font-size:12px;letter-spacing:.5px}
+  header{background:linear-gradient(135deg,var(--forest) 0%,var(--leaf) 60%,#3a9a62 100%);position:relative;overflow:hidden}
+  header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+  .header-inner{display:flex;align-items:center;gap:20px;max-width:1100px;margin:0 auto;padding:22px 32px}
+  .header-emblem{width:62px;height:62px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+  .header-text h1{font-size:22px;font-weight:700;color:#fff}
+  .header-text p{font-size:12px;color:var(--gold-lt);margin-top:3px}
+  .logout-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
+  .logout-btn:hover{background:rgba(255,255,255,.25)}
+  .page{max-width:1100px;margin:0 auto;padding:32px 24px 60px}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+  .toolbar-left h2{font-size:20px;font-weight:700;color:var(--text-dark)}
+  .toolbar-left p{font-size:13px;color:var(--text-soft);margin-top:2px}
+  .toolbar-right{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;font-size:14px;font-family:inherit;font-weight:600;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap}
+  .btn-secondary{background:white;color:var(--text-mid);border:1.5px solid var(--border)}
+  .btn-secondary:hover{background:var(--pale);border-color:var(--mint);transform:translateY(-1px)}
+  .btn-gold{background:linear-gradient(135deg,#b8900a,var(--gold));color:white;box-shadow:0 3px 12px rgba(201,168,76,.3)}
+  .btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(201,168,76,.4)}
+  .summary-row{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+  .chip{background:white;border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:13px;color:var(--text-mid);display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px var(--shadow)}
+  .chip strong{color:var(--text-dark);font-size:16px}
+  .chip-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .table-card{background:white;border-radius:12px;border:1px solid var(--border);box-shadow:0 3px 14px var(--shadow);overflow:hidden}
+  .table-wrapper{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:700px}
+  thead tr{background:var(--forest)}
+  th{color:white;padding:13px 14px;text-align:center;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+  th:first-child{text-align:left;padding-left:20px}
+  td{padding:11px 14px;text-align:center;border-bottom:1px solid #edf3ef;color:var(--text-dark);vertical-align:middle}
+  td:first-child{text-align:left;padding-left:20px;font-weight:500}
+  tbody tr:nth-child(even) td{background:var(--pale)}
+  tbody tr:hover td{background:#d4eddf}
+  tbody tr:last-child td{border-bottom:none}
+  .action-cell{display:flex;gap:6px;justify-content:center}
+  .action-btn{padding:5px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;transition:all .15s;display:inline-flex;align-items:center;gap:4px;border:none;cursor:pointer;font-family:inherit}
+  .edit{background:#e3f0fd;color:#1565c0;border:1px solid #b3d4f8}
+  .edit:hover{background:#1976d2;color:white}
+  .delete{background:#fde8e8;color:#c62828;border:1px solid #f5b3b3}
+  .delete:hover{background:#d32f2f;color:white}
+  .cost-badge{background:var(--pale);color:var(--leaf);font-weight:700;padding:3px 10px;border-radius:20px;font-size:13px;display:inline-block}
+  .empty-state{text-align:center;padding:60px 20px;color:var(--text-soft)}
+  .empty-state .emoji{font-size:48px;margin-bottom:12px}
+  .loading{text-align:center;padding:40px;color:var(--text-soft);font-size:15px}
+  footer{background:var(--forest);color:rgba(255,255,255,.5);text-align:center;padding:16px;font-size:12px;margin-top:60px}
+  /* Edit modal */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.show{display:flex}
+  .modal{background:white;border-radius:14px;width:100%;max-width:460px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:slideUp .3s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .modal-header{background:linear-gradient(135deg,#1565c0,#1976d2);padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+  .modal-header h3{color:white;font-size:16px;font-weight:700}
+  .modal-close{color:white;background:none;border:none;font-size:20px;cursor:pointer;line-height:1}
+  .modal-body{padding:24px}
+  .modal-field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+  .modal-field label{font-size:13px;font-weight:600;color:var(--text-mid)}
+  .modal-field input{padding:11px 14px;font-size:15px;font-family:inherit;border-radius:8px;border:1.5px solid var(--border);background:var(--cream);outline:none;transition:border-color .2s}
+  .modal-field input:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.12)}
+  .modal-footer{display:flex;gap:10px;padding:0 24px 24px}
+  .btn-blue{background:linear-gradient(135deg,#1565c0,#1976d2);color:white;padding:12px 24px;font-size:14px;font-family:inherit;font-weight:600;border:none;border-radius:8px;cursor:pointer;transition:all .2s;flex:1}
+  .btn-blue:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(25,118,210,.3)}
+  .btn-cancel-modal{background:white;color:var(--text-mid);border:1.5px solid var(--border);padding:12px 24px;font-size:14px;font-family:inherit;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s}
+  .btn-cancel-modal:hover{background:#fde8e8;border-color:#f5b3b3;color:#c62828}
+  @media(max-width:640px){.toolbar{flex-direction:column;align-items:flex-start}.header-inner{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="gov-strip">महाराष्ट्र शासन — शालेय पोषण आहार योजना &nbsp;|&nbsp; Government of Maharashtra — School Nutrition Program</div>
+
+<header>
+  <div class="header-inner">
+    <div class="header-emblem">📋</div>
+    <div class="header-text">
+      <h1>महिन्याची नोंद — Monthly Records</h1>
+      <p>शालेय पोषण आहार व्यवस्थापन प्रणाली</p>
+    </div>
+    <div class="logout-btn" onclick="logout()">👤 <span id="userLabel"></span> &nbsp;|&nbsp; लॉगआउट</div>
+  </div>
+</header>
+
+<div class="page">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <h2>📊 एकूण नोंदी (All Records)</h2>
+      <p>सर्व दैनंदिन नोंदी — Edit किंवा Delete करण्यासाठी Action वापरा</p>
+    </div>
+    <div class="toolbar-right">
+      <a href="index.html" class="btn btn-secondary">← परत जा</a>
+      <button class="btn btn-gold" onclick="downloadExcel()">⬇️ Excel डाउनलोड</button>
+    </div>
+  </div>
+
+  <div class="summary-row" id="summaryRow" style="display:none">
+    <div class="chip"><div class="chip-dot" style="background:#2e7d52"></div>एकूण नोंदी: <strong id="chipCount">0</strong></div>
+    <div class="chip"><div class="chip-dot" style="background:#c9a84c"></div>एकूण खर्च: <strong id="chipCost">₹0</strong></div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrapper">
+      <div class="loading" id="loadingMsg">⏳ नोंदी लोड होत आहेत...</div>
+      <table id="recordsTable" style="display:none">
+        <thead>
+          <tr>
+            <th>#</th><th>तारीख</th><th>वार</th><th>एकूण विद्यार्थी</th>
+            <th>उपस्थित</th><th>घटक</th><th>जिरे</th><th>तेल</th>
+            <th>मीठ</th><th>मोहरी</th><th>खर्च (₹)</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <div class="emoji">📭</div>
+        <p>कोणतीही नोंद आढळली नाही. प्रथम नोंद करा!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>✏️ नोंद संपादित करा — Edit Record</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field"><label>तारीख (Date)</label><input type="date" id="editDate"></div>
+      <div class="modal-field"><label>एकूण विद्यार्थी (Total Students)</label><input type="number" id="editTotal" min="1"></div>
+      <div class="modal-field"><label>उपस्थित विद्यार्थी (Present Students)</label><input type="number" id="editPresent" min="1"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-blue" onclick="saveEdit()">💾 Save Changes</button>
+      <button class="btn-cancel-modal" onclick="closeModal()">✖ रद्द करा</button>
+    </div>
+  </div>
+</div>
+
+<footer>© महाराष्ट्र शासन — शालेय पोषण आहार व्यवस्थापन प्रणाली</footer>
+
+<script>
+  const API   = window.BACKEND_URL || "https://YOUR-RENDER-APP.onrender.com";
+  const token = localStorage.getItem("token");
+  if (!token) window.location.href = "login.html";
+  document.getElementById("userLabel").textContent = localStorage.getItem("username") || "";
+
+  let editingId = null;
+
+  async function loadRecords() {
+    try {
+      const res  = await fetch(`${API}/api/records`, { headers: { "Authorization": `Bearer ${token}` } });
+      if (res.status === 401) { logout(); return; }
+      const data = await res.json();
+      document.getElementById("loadingMsg").style.display = "none";
+
+      if (!data.records.length) {
+        document.getElementById("emptyState").style.display = "block";
+        return;
+      }
+      document.getElementById("chipCount").textContent = data.count;
+      document.getElementById("chipCost").textContent  = "₹ " + data.total_cost.toFixed(2);
+      document.getElementById("summaryRow").style.display = "flex";
+
+      const tbody = document.getElementById("recordsBody");
+      tbody.innerHTML = data.records.map((r, i) => `
+        <tr>
+          <td style="color:var(--text-soft);font-size:12px">${i+1}</td>
+          <td>${r["तारीख (Date)"] || ""}</td>
+          <td>${r["वार (Day)"] || ""}</td>
+          <td>${r["एकूण विद्यार्थी (Total Students)"] || ""}</td>
+          <td><strong>${r["उपस्थित विद्यार्थी (Present Students)"] || ""}</strong></td>
+          <td>${r["घटक (Item)"] || ""}</td>
+          <td>${r["जिरे (Jeera)"] || ""}</td>
+          <td>${r["तेल (Oil)"] || ""}</td>
+          <td>${r["मीठ (Salt)"] || ""}</td>
+          <td>${r["मोहरी (Mustard)"] || ""}</td>
+          <td><span class="cost-badge">₹ ${Number(r["एकूण खर्च (Total Cost)"] || 0).toFixed(2)}</span></td>
+          <td>
+            <div class="action-cell">
+              <button class="action-btn edit" onclick="openEdit(${i}, '${r["तारीख (Date)"]}', ${r["एकूण विद्यार्थी (Total Students)"]}, ${r["उपस्थित विद्यार्थी (Present Students)"]})">✏️ Edit</button>
+              <button class="action-btn delete" onclick="deleteRecord(${i})">🗑️ Delete</button>
+            </div>
+          </td>
+        </tr>`).join("");
+
+      document.getElementById("recordsTable").style.display = "table";
+    } catch { document.getElementById("loadingMsg").textContent = "⚠️ लोड करता आले नाही. पुन्हा प्रयत्न करा."; }
+  }
+
+  function openEdit(id, date, total, present) {
+    editingId = id;
+    document.getElementById("editDate").value    = date;
+    document.getElementById("editTotal").value   = total;
+    document.getElementById("editPresent").value = present;
+    document.getElementById("editModal").classList.add("show");
+  }
+  function closeModal() { document.getElementById("editModal").classList.remove("show"); }
+
+  async function saveEdit() {
+    const res = await fetch(`${API}/api/records/${editingId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      body: JSON.stringify({
+        date: document.getElementById("editDate").value,
+        total: document.getElementById("editTotal").value,
+        present: document.getElementById("editPresent").value
+      })
+    });
+    if (res.status === 401) { logout(); return; }
+    closeModal();
+    document.getElementById("loadingMsg").style.display = "block";
+    document.getElementById("recordsTable").style.display = "none";
+    document.getElementById("summaryRow").style.display = "none";
+    loadRecords();
+  }
+
+  async function deleteRecord(id) {
+    if (!confirm("ही नोंद कायमची हटवायची आहे का?")) return;
+    const res = await fetch(`${API}/api/records/${id}`, {
+      method: "DELETE", headers: { "Authorization": `Bearer ${token}` }
+    });
+    if (res.status === 401) { logout(); return; }
+    document.getElementById("loadingMsg").style.display = "block";
+    document.getElementById("recordsTable").style.display = "none";
+    document.getElementById("summaryRow").style.display = "none";
+    loadRecords();
+  }
+
+  async function downloadExcel() {
+    const res  = await fetch(`${API}/api/download`, { headers: { "Authorization": `Bearer ${token}` } });
+    if (res.status === 401) { logout(); return; }
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a"); a.href = url; a.download = "monthly_meal_record.xlsx"; a.click();
+  }
+
+  function logout() { localStorage.clear(); window.location.href = "login.html"; }
+
+  loadRecords();
+</script>
+</body>
+</html>

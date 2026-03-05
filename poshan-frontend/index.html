@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>शालेय पोषण आहार व्यवस्थापन</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--forest:#1a4731;--leaf:#2e7d52;--mint:#4caf7d;--pale:#e8f5ee;--cream:#f9fbf9;--gold:#c9a84c;--gold-lt:#f0d98b;--text-dark:#1c2b22;--text-mid:#3d5a47;--text-soft:#6b8575;--border:#c8ddd1;--shadow:rgba(26,71,49,.12)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans Devanagari',Arial,sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh}
+  .gov-strip{background:var(--forest);color:var(--gold-lt);text-align:center;padding:6px 16px;font-size:12px;letter-spacing:.5px}
+  header{background:linear-gradient(135deg,var(--forest) 0%,var(--leaf) 60%,#3a9a62 100%);position:relative;overflow:hidden}
+  header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+  .header-inner{display:flex;align-items:center;gap:20px;max-width:980px;margin:0 auto;padding:24px 32px}
+  .header-emblem{width:70px;height:70px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+  .header-text h1{font-size:24px;font-weight:700;color:#fff;line-height:1.25}
+  .header-text p{font-size:13px;color:var(--gold-lt);margin-top:4px}
+  .header-right{margin-left:auto;text-align:right}
+  .header-date{color:rgba(255,255,255,.9);font-size:13px;line-height:1.7}
+  .logout-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;text-decoration:none;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
+  .logout-btn:hover{background:rgba(255,255,255,.25)}
+  .page{max-width:980px;margin:0 auto;padding:36px 24px 60px}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:30px}
+  .stat-card{background:white;border-radius:10px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px var(--shadow);transition:transform .2s,box-shadow .2s}
+  .stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+  .stat-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .stat-icon.green{background:var(--pale)}.stat-icon.gold{background:#fef8e7}.stat-icon.blue{background:#e8f0fe}
+  .stat-label{font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .stat-value{font-size:20px;font-weight:700;color:var(--text-dark);margin-top:2px}
+  .card{background:white;border-radius:12px;border:1px solid var(--border);box-shadow:0 3px 14px var(--shadow);overflow:hidden}
+  .card-header{background:linear-gradient(90deg,var(--pale),#fff);border-bottom:1px solid var(--border);padding:18px 28px;display:flex;align-items:center;gap:12px}
+  .card-header-icon{width:36px;height:36px;background:var(--leaf);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:17px}
+  .card-header h2{font-size:17px;font-weight:600;color:var(--text-dark)}
+  .card-header p{font-size:12px;color:var(--text-soft);margin-top:2px}
+  .card-body{padding:28px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  label{font-size:13px;font-weight:600;color:var(--text-mid);letter-spacing:.3px}
+  label span{color:var(--text-soft);font-weight:400;margin-left:4px}
+  input,select{padding:11px 14px;font-size:15px;font-family:inherit;border-radius:8px;border:1.5px solid var(--border);background:var(--cream);color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s}
+  input:focus,select:focus{border-color:var(--mint);box-shadow:0 0 0 3px rgba(76,175,125,.15);background:white}
+  .divider{border:none;border-top:1px dashed var(--border);margin:24px 0}
+  .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;font-size:15px;font-family:inherit;font-weight:600;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:all .2s}
+  .btn-primary{background:linear-gradient(135deg,var(--leaf),#389962);color:white;box-shadow:0 4px 14px rgba(46,125,82,.3)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(46,125,82,.4)}
+  .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+  .btn-secondary{background:white;color:var(--leaf);border:1.5px solid var(--leaf)}
+  .btn-secondary:hover{background:var(--pale);transform:translateY(-1px)}
+  /* Success card */
+  .success-card{display:none;text-align:center;padding:40px 28px}
+  .success-card.show{display:block}
+  .success-emoji{font-size:60px;margin-bottom:14px}
+  .success-title{font-size:22px;font-weight:700;color:var(--leaf);margin-bottom:8px}
+  .success-sub{font-size:14px;color:var(--text-soft);margin-bottom:12px}
+  .calc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0 28px;text-align:left}
+  .calc-item{background:var(--pale);border-radius:8px;padding:12px 14px}
+  .calc-item .ci-label{font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  .calc-item .ci-value{font-size:18px;font-weight:700;color:var(--text-dark);margin-top:3px}
+  footer{background:var(--forest);color:rgba(255,255,255,.5);text-align:center;padding:16px;font-size:12px;margin-top:60px}
+  @media(max-width:640px){.form-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr}.calc-grid{grid-template-columns:1fr}.header-inner{flex-wrap:wrap}.header-right{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="gov-strip">महाराष्ट्र शासन — शालेय पोषण आहार योजना &nbsp;|&nbsp; Government of Maharashtra — School Nutrition Program</div>
+
+<header>
+  <div class="header-inner">
+    <div class="header-emblem">🏫</div>
+    <div class="header-text">
+      <h1>शालेय पोषण आहार व्यवस्थापन प्रणाली</h1>
+      <p>School Nutrition Meal Management System</p>
+    </div>
+    <div class="header-right">
+      <div class="header-date" id="liveDate"></div>
+      <div class="logout-btn" onclick="logout()">👤 <span id="userLabel"></span> &nbsp;|&nbsp; लॉगआउट</div>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-icon green">👩‍🎓</div><div><div class="stat-label">कार्यक्रम</div><div class="stat-value">पोषण आहार</div></div></div>
+    <div class="stat-card"><div class="stat-icon gold">🍽️</div><div><div class="stat-label">घटक उपलब्ध</div><div class="stat-value">4 प्रकार</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue">📊</div><div><div class="stat-label">स्वयंचलित गणना</div><div class="stat-value">चालू ✓</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon">✏️</div>
+      <div><h2>आजची नोंद भरा</h2><p>Enter today's meal record — सर्व माहिती अचूक भरा</p></div>
+    </div>
+    <div class="card-body">
+      <!-- FORM -->
+      <div id="formSection">
+        <div class="form-grid">
+          <div class="field"><label>तारीख <span>(Date)</span></label><input type="date" id="date" required></div>
+          <div class="field"><label>एकूण विद्यार्थी <span>(Total Students)</span></label><input type="number" id="total" min="1" placeholder="उदा. 120" required></div>
+          <div class="field"><label>उपस्थित विद्यार्थी <span>(Present Students)</span></label><input type="number" id="present" min="1" placeholder="उदा. 98" required></div>
+          <div class="field">
+            <label>घटक निवडा <span>(Select Ingredient)</span></label>
+            <select id="item">
+              <option value="Harbara">🟤 हरभरा (Chick Peas)</option>
+              <option value="Chana">🟡 चना (Bengal Gram)</option>
+              <option value="Moong">🟢 मूग (Green Gram)</option>
+              <option value="Vatana">🔵 वाटाणा (Green Peas)</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>महिन्याचा शेवट आहे का? <span>(Month End?)</span></label>
+            <select id="monthEnd" style="max-width:340px">
+              <option value="no">❌ नाही — सामान्य नोंद</option>
+              <option value="yes">✅ होय — महिन्याचा अहवाल पहा</option>
+            </select>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="btn-row">
+          <button class="btn btn-primary" id="submitBtn" onclick="submitRecord()">✅ नोंद करा <span style="font-weight:400;font-size:13px">(Submit)</span></button>
+          <a href="records.html" class="btn btn-secondary">📋 महिन्याची नोंद पहा</a>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-card" id="successCard">
+        <div class="success-emoji">✅</div>
+        <div class="success-title">नोंद यशस्वीरित्या जतन झाली!</div>
+        <div class="success-sub">Record saved — आजची नोंद Excel मध्ये जोडली गेली आहे.</div>
+        <div class="calc-grid">
+          <div class="calc-item"><div class="ci-label">जिरे (Jeera)</div><div class="ci-value" id="rJeera">—</div></div>
+          <div class="calc-item"><div class="ci-label">तेल (Oil)</div><div class="ci-value" id="rOil">—</div></div>
+          <div class="calc-item"><div class="ci-label">मीठ (Salt)</div><div class="ci-value" id="rSalt">—</div></div>
+          <div class="calc-item"><div class="ci-label">मोहरी (Mustard)</div><div class="ci-value" id="rMustard">—</div></div>
+        </div>
+        <div style="font-size:18px;font-weight:700;color:var(--forest);margin-bottom:24px">💰 एकूण खर्च: ₹ <span id="rCost">—</span></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="resetForm()">➕ नवीन नोंद करा</button>
+          <a href="records.html" class="btn btn-secondary">📋 सर्व नोंदी पहा</a>
+          <button class="btn" style="background:linear-gradient(135deg,#b8900a,#c9a84c);color:white" onclick="downloadExcel()">⬇️ Excel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© महाराष्ट्र शासन — शालेय पोषण आहार व्यवस्थापन प्रणाली</footer>
+
+<script>
+  const API = window.BACKEND_URL || "https://YOUR-RENDER-APP.onrender.com";
+
+  // Auth guard
+  const token = localStorage.getItem("token");
+  if (!token) window.location.href = "login.html";
+  document.getElementById("userLabel").textContent = localStorage.getItem("username") || "";
+
+  // Live date
+  function updateDate() {
+    const now = new Date();
+    const days = ['रविवार','सोमवार','मंगळवार','बुधवार','गुरुवार','शुक्रवार','शनिवार'];
+    const months = ['जानेवारी','फेब्रुवारी','मार्च','एप्रिल','मे','जून','जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर'];
+    document.getElementById("liveDate").innerHTML =
+      `<strong style="color:#fff">${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}</strong><br>
+       <span style="font-size:11px">${now.toLocaleTimeString('mr-IN')}</span>`;
+  }
+  updateDate(); setInterval(updateDate, 1000);
+  document.getElementById("date").value = new Date().toISOString().split("T")[0];
+
+  function logout() { localStorage.clear(); window.location.href = "login.html"; }
+
+  async function submitRecord() {
+    const date    = document.getElementById("date").value;
+    const total   = document.getElementById("total").value;
+    const present = document.getElementById("present").value;
+    const item    = document.getElementById("item").value;
+    const monthEnd= document.getElementById("monthEnd").value;
+    if (!date || !total || !present) { alert("कृपया सर्व माहिती भरा."); return; }
+
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true; btn.textContent = "जतन होत आहे...";
+
+    try {
+      const res  = await fetch(`${API}/api/records`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ date, total_students: total, present_students: present, item })
+      });
+      if (res.status === 401) { logout(); return; }
+      const data = await res.json();
+      if (res.ok) {
+        if (monthEnd === "yes") { window.location.href = "records.html"; return; }
+        document.getElementById("rJeera").textContent   = data.jeera + " g";
+        document.getElementById("rOil").textContent     = data.oil + " ml";
+        document.getElementById("rSalt").textContent    = data.meeth + " g";
+        document.getElementById("rMustard").textContent = data.mohri + " g";
+        document.getElementById("rCost").textContent    = data.cost.toFixed(2);
+        document.getElementById("formSection").style.display = "none";
+        document.getElementById("successCard").classList.add("show");
+      } else { alert(data.error || "काहीतरी चुकले."); }
+    } catch { alert("सर्व्हरशी कनेक्ट होता आले नाही."); }
+    btn.disabled = false; btn.textContent = "✅ नोंद करा";
+  }
+
+  function resetForm() {
+    document.getElementById("successCard").classList.remove("show");
+    document.getElementById("formSection").style.display = "block";
+    document.getElementById("total").value = "";
+    document.getElementById("present").value = "";
+    document.getElementById("date").value = new Date().toISOString().split("T")[0];
+  }
+
+  async function downloadExcel() {
+    const res = await fetch(`${API}/api/download`, { headers: { "Authorization": `Bearer ${token}` } });
+    if (res.status === 401) { logout(); return; }
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a"); a.href = url; a.download = "monthly_meal_record.xlsx"; a.click();
+  }
+</script>
+</body>
+</html>

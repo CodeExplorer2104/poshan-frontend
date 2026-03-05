@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>नोंद संपादित करा — शालेय पोषण आहार</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest:    #1a4731;
+    --leaf:      #2e7d52;
+    --mint:      #4caf7d;
+    --pale:      #e8f5ee;
+    --cream:     #f9fbf9;
+    --gold:      #c9a84c;
+    --gold-lt:   #f0d98b;
+    --text-dark: #1c2b22;
+    --text-mid:  #3d5a47;
+    --text-soft: #6b8575;
+    --border:    #c8ddd1;
+    --shadow:    rgba(26,71,49,.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans Devanagari', Arial, sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; }
+
+  .gov-strip { background: var(--forest); color: var(--gold-lt); text-align: center; padding: 6px 16px; font-size: 12px; letter-spacing: .5px; }
+
+  header { background: linear-gradient(135deg, var(--forest) 0%, var(--leaf) 60%, #3a9a62 100%); position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+  .header-inner { display: flex; align-items: center; gap: 20px; max-width: 720px; margin: 0 auto; padding: 22px 32px; }
+  .header-emblem { width: 62px; height: 62px; background: rgba(255,255,255,.15); border: 2px solid rgba(255,255,255,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+  .header-text h1 { font-size: 22px; font-weight: 700; color: #fff; }
+  .header-text p { font-size: 12px; color: var(--gold-lt); margin-top: 3px; }
+
+
+
+  .page { max-width: 720px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-size: 13px; color: var(--text-soft); margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
+  .breadcrumb a { color: var(--leaf); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* Alert banner */
+  .alert { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #7a5c00; display: flex; align-items: center; gap: 10px; }
+
+  .card { background: white; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 3px 14px var(--shadow); overflow: hidden; }
+  .card-header { background: linear-gradient(90deg, var(--pale), #fff); border-bottom: 1px solid var(--border); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
+  .card-header-icon { width: 36px; height: 36px; background: #1976d2; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; }
+  .card-header h2 { font-size: 17px; font-weight: 600; color: var(--text-dark); }
+  .card-header p { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .card-body { padding: 28px; }
+
+  .record-info { background: var(--pale); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: var(--text-mid); display: flex; flex-wrap: wrap; gap: 16px; }
+  .record-info span strong { color: var(--forest); }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  label { font-size: 13px; font-weight: 600; color: var(--text-mid); letter-spacing: .3px; }
+  label span { color: var(--text-soft); font-weight: 400; margin-left: 4px; }
+  input { padding: 11px 14px; font-size: 15px; font-family: inherit; border-radius: 8px; border: 1.5px solid var(--border); background: var(--cream); color: var(--text-dark); outline: none; transition: border-color .2s, box-shadow .2s; }
+  input:focus { border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25,118,210,.12); background: white; }
+
+  .divider { border: none; border-top: 1px dashed var(--border); margin: 24px 0; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 7px; padding: 12px 26px; font-size: 14px; font-family: inherit; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all .2s; }
+  .btn-save { background: linear-gradient(135deg, #1565c0, #1976d2); color: white; box-shadow: 0 3px 12px rgba(25,118,210,.3); }
+  .btn-save:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(25,118,210,.4); }
+  .btn-cancel { background: white; color: var(--text-mid); border: 1.5px solid var(--border); }
+  .btn-cancel:hover { background: #fde8e8; border-color: #f5b3b3; color: #c62828; transform: translateY(-1px); }
+
+  footer { background: var(--forest); color: rgba(255,255,255,.5); text-align: center; padding: 16px; font-size: 12px; margin-top: 60px; }
+</style>
+</head>
+<body>
+
+<div class="gov-strip">शालेय पोषण आहार योजना &nbsp;|&nbsp;School Nutrition Program</div>
+
+<header>
+  <div class="header-inner">
+    <div class="header-emblem">✏️</div>
+    <div class="header-text">
+      <h1>नोंद संपादित करा — Edit Record</h1>
+      <p>शालेय पोषण आहार व्यवस्थापन प्रणाली</p>
+    </div>
+  </div>
+</header>
+
+
+
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="/">मुख्यपृष्ठ</a> ›
+    <a href="/records">महिन्याची नोंद</a> ›
+    <span>संपादित करा</span>
+  </div>
+
+  <div class="alert">
+    ⚠️ <span>माहिती बदलल्यानंतर <strong>Save Changes</strong> वर क्लिक करा. हे बदल Excel फाईलमध्ये आपोआप जतन होतील.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon">✏️</div>
+      <div>
+        <h2>नोंद क्र. {{ row_id + 1 }} संपादित करा</h2>
+        <p>Edit Record #{{ row_id + 1 }} — फक्त तारीख, एकूण व उपस्थित विद्यार्थी बदलता येतील</p>
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="record-info">
+        <span>🗓️ वार: <strong>{{ row["वार (Day)"] }}</strong></span>
+        <span>🍽️ घटक: <strong>{{ row["घटक (Item)"] }}</strong></span>
+        <span>💰 खर्च: <strong>₹ {{ row["एकूण खर्च (Total Cost)"] }}</strong></span>
+      </div>
+
+      <form action="/edit/{{ row_id }}" method="post">
+        <div class="form-grid">
+
+          <div class="field">
+            <label>तारीख <span>(Date)</span></label>
+            <input type="date" name="date" value="{{ row['तारीख (Date)'] }}" required>
+          </div>
+
+          <div class="field" style="grid-column: 1 / -1; max-width: 340px;">
+            <!-- spacer -->
+          </div>
+
+          <div class="field">
+            <label>एकूण विद्यार्थी <span>(Total Students)</span></label>
+            <input type="number" name="total" value="{{ row['एकूण विद्यार्थी (Total Students)'] }}" min="1" required>
+          </div>
+
+          <div class="field">
+            <label>उपस्थित विद्यार्थी <span>(Present Students)</span></label>
+            <input type="number" name="present" value="{{ row['उपस्थित विद्यार्थी (Present Students)'] }}" min="1" required>
+          </div>
+
+        </div>
+
+        <hr class="divider">
+
+        <div class="btn-row">
+          <button class="btn btn-save" type="submit">💾 Save Changes</button>
+          <a href="/records" class="btn btn-cancel">✖ रद्द करा (Cancel)</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>© शालेय पोषण आहार व्यवस्थापन प्रणाली &nbsp;|&nbsp; Designed for School Staff Use</footer>
+
+</body>
+</html>
