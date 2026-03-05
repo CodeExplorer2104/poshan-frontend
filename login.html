@@ -63,7 +63,7 @@
     </div>
     <button class="btn-login" id="loginBtn" onclick="doLogin()">
       <div class="spinner" id="spinner"></div>
-      <span id="btnText">🔓 लॉगिन करा (Login)</span>
+      <span id="btnText"> लॉगिन करा (Login)</span>
     </button>
     <div class="hint">प्रवेशासाठी शाळेने दिलेले नाव व पासवर्ड वापरा.<br><strong>Use the username & password provided by your school.</strong></div>
   </div>
@@ -110,10 +110,11 @@
   function setLoading(on) {
     document.getElementById("loginBtn").disabled = on;
     document.getElementById("spinner").style.display = on ? "block" : "none";
-    document.getElementById("btnText").textContent = on ? "लॉगिन होत आहे..." : "🔓 लॉगिन करा (Login)";
+    document.getElementById("btnText").textContent = on ? "लॉगिन होत आहे..." : " लॉगिन करा (Login)";
   }
 </script>
 </body>
 </html>
+
 
 
