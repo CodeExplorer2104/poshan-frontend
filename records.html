@@ -80,7 +80,6 @@
 
 <header>
   <div class="header-inner">
-    <div class="header-emblem">📋</div>
     <div class="header-text">
       <h1>महिन्याची नोंद — Monthly Records</h1>
       <p>शालेय पोषण आहार व्यवस्थापन प्रणाली</p>
@@ -92,12 +91,12 @@
 <div class="page">
   <div class="toolbar">
     <div class="toolbar-left">
-      <h2>📊 एकूण नोंदी (All Records)</h2>
+      <h2> एकूण नोंदी (All Records)</h2>
       <p>सर्व दैनंदिन नोंदी — Edit किंवा Delete करण्यासाठी Action वापरा</p>
     </div>
     <div class="toolbar-right">
       <a href="index.html" class="btn btn-secondary">← परत जा</a>
-      <button class="btn btn-gold" onclick="downloadExcel()">⬇️ Excel डाउनलोड</button>
+      <button class="btn btn-gold" onclick="downloadExcel()"> Excel डाउनलोड</button>
     </div>
   </div>
 
@@ -108,7 +107,7 @@
 
   <div class="table-card">
     <div class="table-wrapper">
-      <div class="loading" id="loadingMsg">⏳ नोंदी लोड होत आहेत...</div>
+      <div class="loading" id="loadingMsg"> नोंदी लोड होत आहेत...</div>
       <table id="recordsTable" style="display:none">
         <thead>
           <tr>
@@ -120,7 +119,6 @@
         <tbody id="recordsBody"></tbody>
       </table>
       <div class="empty-state" id="emptyState" style="display:none">
-        <div class="emoji">📭</div>
         <p>कोणतीही नोंद आढळली नाही. प्रथम नोंद करा!</p>
       </div>
     </div>
@@ -131,7 +129,7 @@
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <div class="modal-header">
-      <h3>✏️ नोंद संपादित करा — Edit Record</h3>
+      <h3> नोंद संपादित करा — Edit Record</h3>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
@@ -140,13 +138,13 @@
       <div class="modal-field"><label>उपस्थित विद्यार्थी (Present Students)</label><input type="number" id="editPresent" min="1"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn-blue" onclick="saveEdit()">💾 Save Changes</button>
-      <button class="btn-cancel-modal" onclick="closeModal()">✖ रद्द करा</button>
+      <button class="btn-blue" onclick="saveEdit()"> Save Changes</button>
+      <button class="btn-cancel-modal" onclick="closeModal()"> रद्द करा</button>
     </div>
   </div>
 </div>
 
-<footer>© महाराष्ट्र शासन — शालेय पोषण आहार व्यवस्थापन प्रणाली</footer>
+<footer>© शालेय पोषण आहार व्यवस्थापन प्रणाली</footer>
 
 <script>
   const API   = window.BACKEND_URL || "https://poshan-backend-4.onrender.com";
@@ -188,13 +186,13 @@
           <td>
             <div class="action-cell">
               <button class="action-btn edit" onclick="openEdit(${i}, '${r["तारीख (Date)"]}', ${r["एकूण विद्यार्थी (Total Students)"]}, ${r["उपस्थित विद्यार्थी (Present Students)"]})">✏️ Edit</button>
-              <button class="action-btn delete" onclick="deleteRecord(${i})">🗑️ Delete</button>
+              <button class="action-btn delete" onclick="deleteRecord(${i})"> Delete</button>
             </div>
           </td>
         </tr>`).join("");
 
       document.getElementById("recordsTable").style.display = "table";
-    } catch { document.getElementById("loadingMsg").textContent = "⚠️ लोड करता आले नाही. पुन्हा प्रयत्न करा."; }
+    } catch { document.getElementById("loadingMsg").textContent = " लोड करता आले नाही. पुन्हा प्रयत्न करा."; }
   }
 
   function openEdit(id, date, total, present) {
@@ -250,4 +248,5 @@
 </script>
 </body>
 </html>
+
 
