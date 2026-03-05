@@ -82,14 +82,13 @@
 
 <div class="page">
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-icon green">👩‍🎓</div><div><div class="stat-label">कार्यक्रम</div><div class="stat-value">पोषण आहार</div></div></div>
-    <div class="stat-card"><div class="stat-icon gold">🍽️</div><div><div class="stat-label">घटक उपलब्ध</div><div class="stat-value">4 प्रकार</div></div></div>
-    <div class="stat-card"><div class="stat-icon blue">📊</div><div><div class="stat-label">स्वयंचलित गणना</div><div class="stat-value">चालू ✓</div></div></div>
+    <div class="stat-card"><div><div class="stat-label">कार्यक्रम</div><div class="stat-value">पोषण आहार</div></div></div>
+    <div class="stat-card"><div><div class="stat-label">घटक उपलब्ध</div><div class="stat-value">4 प्रकार</div></div></div>
+    <div class="stat-card"><div><div class="stat-label">स्वयंचलित गणना</div><div class="stat-value">चालू ✓</div></div></div>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">✏️</div>
       <div><h2>आजची नोंद भरा</h2><p>Enter today's meal record — सर्व माहिती अचूक भरा</p></div>
     </div>
     <div class="card-body">
@@ -111,15 +110,15 @@
           <div class="field full">
             <label>महिन्याचा शेवट आहे का? <span>(Month End?)</span></label>
             <select id="monthEnd" style="max-width:340px">
-              <option value="no">❌ नाही — सामान्य नोंद</option>
-              <option value="yes">✅ होय — महिन्याचा अहवाल पहा</option>
+              <option value="no"> नाही — सामान्य नोंद</option>
+              <option value="yes"> होय — महिन्याचा अहवाल पहा</option>
             </select>
           </div>
         </div>
         <hr class="divider">
         <div class="btn-row">
-          <button class="btn btn-primary" id="submitBtn" onclick="submitRecord()">✅ नोंद करा <span style="font-weight:400;font-size:13px">(Submit)</span></button>
-          <a href="records.html" class="btn btn-secondary">📋 महिन्याची नोंद पहा</a>
+          <button class="btn btn-primary" id="submitBtn" onclick="submitRecord()"> नोंद करा <span style="font-weight:400;font-size:13px">(Submit)</span></button>
+          <a href="records.html" class="btn btn-secondary"> महिन्याची नोंद पहा</a>
         </div>
       </div>
 
@@ -136,8 +135,8 @@
         </div>
         <div style="font-size:18px;font-weight:700;color:var(--forest);margin-bottom:24px">💰 एकूण खर्च: ₹ <span id="rCost">—</span></div>
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="resetForm()">➕ नवीन नोंद करा</button>
-          <a href="records.html" class="btn btn-secondary">📋 सर्व नोंदी पहा</a>
+          <button class="btn btn-primary" onclick="resetForm()"> नवीन नोंद करा</button>
+          <a href="records.html" class="btn btn-secondary"> सर्व नोंदी पहा</a>
           <button class="btn" style="background:linear-gradient(135deg,#b8900a,#c9a84c);color:white" onclick="downloadExcel()">⬇️ Excel</button>
         </div>
       </div>
@@ -199,7 +198,7 @@
         document.getElementById("successCard").classList.add("show");
       } else { alert(data.error || "काहीतरी चुकले."); }
     } catch { alert("सर्व्हरशी कनेक्ट होता आले नाही."); }
-    btn.disabled = false; btn.textContent = "✅ नोंद करा";
+    btn.disabled = false; btn.textContent = " नोंद करा";
   }
 
   function resetForm() {
@@ -220,4 +219,5 @@
 </script>
 </body>
 </html>
+
 
